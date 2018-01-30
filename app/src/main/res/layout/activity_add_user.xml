@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/light_blue_back"
+    android:orientation="vertical"
+
+    tools:context="com.nasirbashak007.canteenui.AddUserActivity">
+
+    <LinearLayout
+        android:id="@+id/name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/name_textview"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/design_name_usn"
+            android:gravity="center"
+            android:text="NAME"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/name_edittext"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:gravity="center"
+            android:hint="Name"
+            android:maxLength="20"
+            android:textColor="#fff"
+            android:textColorHint="#ffb428"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/usn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/usn_textview"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/design_name_usn"
+            android:gravity="center"
+            android:text="USN"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/usn_edittext"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:hint="1MV16CS001"
+            android:maxLength="10"
+            android:textColor="#fff"
+            android:textColorHint="#ffb428"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/branch_textview"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:hint="Branch"
+            android:textColor="#ff7a29"
+            android:textColorHint="#fff"
+            android:textSize="25dp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/year_textview"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="35dp"
+            android:gravity="center"
+            android:hint="Year"
+            android:textColor="#ff7a29"
+            android:textColorHint="#fff"
+            android:textSize="25dp"
+            android:textStyle="italic" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/profile_imageview"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:onClick="openCamera"
+            android:src="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button_save"
+            android:onClick="saveTheUserDetails"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:text="SAVE"
+            android:textColor="#fff"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+</LinearLayout>
