@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/blue_back_3"
+    android:background="#b4adad"
     tools:context="com.nasirbashak007.canteenui.MainActivity">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/salman"
+            android:src="@drawable/samplepic"
              />
 
         <TextView

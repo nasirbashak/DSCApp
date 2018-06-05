@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_blue_back"
+    android:background="#fff"
     android:orientation="vertical"
 
     tools:context="com.nasirbashak007.canteenui.AddUserActivity">
@@ -91,7 +91,7 @@
             android:gravity="center"
             android:hint="Branch"
             android:textColor="#ff7a29"
-            android:textColorHint="#fff"
+            android:textColorHint="#0ff207"
             android:textSize="25dp"
             android:textStyle="italic" />
 
@@ -103,7 +103,7 @@
             android:gravity="center"
             android:hint="Year"
             android:textColor="#ff7a29"
-            android:textColorHint="#fff"
+            android:textColorHint="#0ff207"
             android:textSize="25dp"
             android:textStyle="italic" />
 
@@ -133,6 +133,7 @@
             android:background="@drawable/button_save"
             android:onClick="saveTheUserDetails"
             android:padding="10dp"
+            android:layout_marginTop="16dp"
             android:textSize="20dp"
             android:text="SAVE"
             android:textColor="#fff"
