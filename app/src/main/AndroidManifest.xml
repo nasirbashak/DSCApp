@@ -19,8 +19,10 @@
         <activity
             android:name=".AddUserActivity"
             android:label="ADD User" />
-        <activity android:name=".AmountDetailsActivity"
-            android:label="Amount Details"></activity>
+        <activity
+            android:name=".AmountDetailsActivity"
+            android:label="Amount Details" />
+        <activity android:name=".UserDetails"></activity>
     </application>
 
 </manifest>

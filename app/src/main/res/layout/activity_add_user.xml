@@ -84,16 +84,14 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <TextView
-            android:id="@+id/branch_textview"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:hint="Branch"
-            android:textColor="#ff7a29"
-            android:textColorHint="#0ff207"
-            android:textSize="25dp"
-            android:textStyle="italic" />
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Branch" />
 
         <TextView
             android:id="@+id/year_textview"
@@ -137,7 +135,8 @@
             android:textSize="20dp"
             android:text="SAVE"
             android:textColor="#fff"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
     </LinearLayout>
 
 
