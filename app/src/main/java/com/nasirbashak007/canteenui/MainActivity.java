@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout L1,L2;
     Animation topToBottom,bottomToTop;
+    Intent UserPage;
 
 
     @Override
@@ -42,5 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openSecondActivity(View view) {
         startActivity(new Intent(this,AmountDetailsActivity.class));
+    }
+
+    public void userPage(View view) {
+        UserPage=new Intent(this,UserDetails.class);
+        startActivity(UserPage);
+
     }
 }

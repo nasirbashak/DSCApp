@@ -1,5 +1,6 @@
 package com.nasirbashak007.canteenui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ public class AddUserActivity extends AppCompatActivity {
 
     LinearLayout L1,L2,L3;
     Animation leftToRight,rightToLeft,bottomToTop;
+    Intent main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class AddUserActivity extends AppCompatActivity {
     }
 
     public void saveTheUserDetails(View view) {
+        main= new Intent(this,MainActivity.class);
         Toast.makeText(getApplicationContext(),"Details Saved",Toast.LENGTH_SHORT).show();
+        startActivity(main);
     }
 }

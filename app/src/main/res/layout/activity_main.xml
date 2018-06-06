@@ -11,20 +11,19 @@
 
     <LinearLayout
         android:id="@+id/first_layout"
-        android:layout_width="match_parent"
+        android:layout_width="363dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/user_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/samplepic"
-             />
+            android:onClick="userPage"
+            android:src="@drawable/samplepic" />
 
         <TextView
             android:id="@+id/user_name_textview"
@@ -32,7 +31,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Name"
+            android:text="NASIR"
             android:textColor="#000"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -58,24 +57,19 @@
         android:layout_gravity="right"
         android:orientation="horizontal"
         android:padding="5dp">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="call2nd"
-            android:onClick="openSecondActivity"/>
 
         <Button
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
-            android:background="@drawable/button_add"
             android:layout_height="40dp"
+            android:background="@drawable/button_add"
             android:text="ADD" />
 
         <Button
             android:id="@+id/deduct_button"
             android:layout_width="wrap_content"
-            android:background="@drawable/button_deduct"
             android:layout_height="40dp"
+            android:background="@drawable/button_deduct"
             android:text="Deduct" />
 
 
