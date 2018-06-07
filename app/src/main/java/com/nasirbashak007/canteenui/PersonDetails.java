@@ -2,15 +2,15 @@ package com.nasirbashak007.canteenui;
 
 public class PersonDetails {
 
-    private String amount, item;
+    private String amount;
 
     public PersonDetails() {
 
     }
 
-    public PersonDetails(String amount, String item) {
+    public PersonDetails(String amount) {
         this.amount = amount;
-        this.item = item;
+
     }
 
     public String getAmount() {
@@ -21,11 +21,5 @@ public class PersonDetails {
         this.amount = amount;
     }
 
-    public String getItem() {
-        return item;
-    }
 
-    public void setItem(String item) {
-        this.item = item;
-    }
 }

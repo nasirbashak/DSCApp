@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class AddDialog extends AppCompatDialogFragment {
 
-    private EditText editTextAmount, editTextItem;
+    private EditText editTextAmount;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -35,15 +35,15 @@ public class AddDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String amount = editTextAmount.getText().toString().trim();
-                        String item = editTextItem.getText().toString().trim();
-                        PersonDetails personDetails = new PersonDetails(amount, item);
-                        Toast.makeText(getContext(), amount + "\t" + item, Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getContext(), "From The Class " + personDetails.getAmount() + "\t" + personDetails.getItem(), Toast.LENGTH_SHORT).show();
+                        PersonDetails personDetails = new PersonDetails(amount);
+                        Toast.makeText(getContext(), amount , Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getContext(), "From The Class " + personDetails.getAmount(), Toast.LENGTH_SHORT).show();
                     }
                 });
         editTextAmount = (EditText) view.findViewById(R.id.editTextAmount);
-        editTextItem = (EditText) view.findViewById(R.id.editTextItem);
+
 
 
         return builder.create();
