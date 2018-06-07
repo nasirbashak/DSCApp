@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#b4adad"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#b4adad"
     tools:context="com.nasirbashak007.canteenui.MainActivity">
 
     <LinearLayout
@@ -63,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@drawable/button_add"
+            android:onClick="AddTheAmount"
             android:text="ADD" />
 
         <Button
@@ -77,11 +78,10 @@
 
 
     <LinearLayout
-        android:padding="16dp"
-        android:gravity="bottom|end"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:gravity="bottom|end"
+        android:padding="16dp">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton"

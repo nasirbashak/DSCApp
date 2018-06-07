@@ -1,0 +1,51 @@
+package com.nasirbashak007.canteenui;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class AddDialog extends AppCompatDialogFragment {
+
+    private EditText editTextAmount, editTextItem;
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        View view = inflater.inflate(R.layout.add_dialog_layout, null);
+
+        builder.setView(view)
+                .setTitle("Adding Credentials")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getContext(), "Credentials Cancelled", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String amount = editTextAmount.getText().toString().trim();
+                        String item = editTextItem.getText().toString().trim();
+                        PersonDetails personDetails = new PersonDetails(amount, item);
+                        Toast.makeText(getContext(), amount + "\t" + item, Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getContext(), "From The Class " + personDetails.getAmount() + "\t" + personDetails.getItem(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        editTextAmount = (EditText) view.findViewById(R.id.editTextAmount);
+        editTextItem = (EditText) view.findViewById(R.id.editTextItem);
+
+
+        return builder.create();
+    }
+}
