@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.susmit.mailsender.MailSender;
+
 public class AddDialog extends AppCompatDialogFragment {
 
     private EditText editTextAmount;
@@ -34,6 +36,16 @@ public class AddDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                        //TODO: Fill these
+                        String senderID = "someone@gmail.com";
+                        String password="********"; //TODO: Maybe set up an encrypted string, and decpypt on call
+                        String recvID = "otherperson@somemail.com";
+                        String subject = "Some Subject";
+                        String message = "Some text";
+                        //new MailSender(senderID,password).sendMailAsync(recvID,subject,message);
+
                         String amount = editTextAmount.getText().toString().trim();
 
                         PersonDetails personDetails = new PersonDetails(amount);
