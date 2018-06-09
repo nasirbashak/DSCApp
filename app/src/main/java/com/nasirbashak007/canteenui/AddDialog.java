@@ -37,7 +37,7 @@ public class AddDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-
+                        //Name, USN, Phone, Mail
                         //TODO: Fill these
                         String senderID = "someone@gmail.com";
                         String password="********"; //TODO: Maybe set up an encrypted string, and decpypt on call
