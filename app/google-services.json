@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "764781318797",
+    "firebase_url": "https://canteenui.firebaseio.com",
+    "project_id": "canteenui",
+    "storage_bucket": "canteenui.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764781318797:android:653dacec1c78e982",
+        "android_client_info": {
+          "package_name": "com.nasirbashak007.canteenui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764781318797-98i9a180da0c6vda6ae0n1ktfrtclq9v.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "764781318797-98i9a180da0c6vda6ae0n1ktfrtclq9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKvekOrCuISf0XsimvWMLV8-YI7AaZ5ow"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
