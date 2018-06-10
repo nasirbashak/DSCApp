@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -36,51 +37,29 @@ public class MainActivity extends AppCompatActivity {
 
     static FirebaseDatabase database;
     static DatabaseReference databaseReference;
+    static FirebaseApp firebaseApp;
     private FirebaseAuth auth;
     static Intent callingIntent;
+    static String DB_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
         L1 = (LinearLayout) findViewById(R.id.first_layout);
         L2 = (LinearLayout) findViewById(R.id.second_layout);
 
         final LinearLayout ll =(LinearLayout) getLayoutInflater().inflate(R.layout.temp_firebase_login_dialog,null);
-        new AlertDialog.Builder(this).setView(ll).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                email = ((EditText)(ll.findViewById(R.id.mail))).getText().toString();
-                password = ((EditText)(ll.findViewById(R.id.pass))).getText().toString();
-                dialog.dismiss();
-            }
-        }).create().show();
 
         database= FirebaseDatabase.getInstance();
         databaseReference=database.getReference();
-        auth = FirebaseAuth.getInstance();
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            // there was an error
-                            Log.e("Login error","Couldn't log in");
-                        }
-                    }
-                });
-
 
         topToBottom = AnimationUtils.loadAnimation(this, R.anim.top_to_bottom_left);
         L1.setAnimation(topToBottom);
 
         bottomToTop = AnimationUtils.loadAnimation(this, R.anim.botton_to_top);
         L2.setAnimation(bottomToTop);
-
-
     }
 
 
@@ -98,7 +77,5 @@ public class MainActivity extends AppCompatActivity {
     public void AddTheAmount(View view) {
         AddDialog addDialog = new AddDialog();
         addDialog.show(getSupportFragmentManager(), "Add Dialog");
-
-
     }
 }

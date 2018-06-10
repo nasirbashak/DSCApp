@@ -35,7 +35,7 @@
             android:gravity="center"
             android:hint="Name"
             android:maxLength="20"
-            android:textColor="#fff"
+            android:textColor="#ffb428"
             android:textColorHint="#ffb428"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:gravity="center"
-            android:hint="1MV16CS001"
+            android:hint="USN"
             android:maxLength="10"
             android:textColor="#fff"
             android:textColorHint="#ffb428"
@@ -78,38 +78,62 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="16dp">
 
         <TextView
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="Branch"
-            android:inputType="textPersonName"
-            android:textColor="#ff7a29"
-            android:textColorHint="#0ff207"
-            android:textSize="25dp"
-            android:textStyle="italic" />
-
-        <TextView
-            android:id="@+id/year_textview"
             android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="35dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/design_name_usn"
             android:gravity="center"
-            android:hint="Year"
-            android:textColor="#ff7a29"
-            android:textColorHint="#0ff207"
-            android:textSize="25dp"
-            android:textStyle="italic" />
+            android:text="PHONE"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
+        <EditText
+            android:id="@+id/phone_edittext"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:hint="Phone"
+            android:maxLength="10"
+            android:textColor="#fff"
+            android:textColorHint="#ffb428"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/design_name_usn"
+            android:gravity="center"
+            android:text="EMAIL-ID"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/email_edittext"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:hint="Email"
+            android:maxLength="10"
+            android:textColor="#fff"
+            android:textColorHint="#ffb428"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
