@@ -5,6 +5,7 @@ public class FirebaseObject {
     String usn;
     String phone;
     String email;
+    String transactions;
 
     //The following methods are all required by Firebase
     FirebaseObject(){    }
@@ -29,6 +30,14 @@ public class FirebaseObject {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(String t) {
+        this.transactions = t;
     }
 
     public void setName(String n) {

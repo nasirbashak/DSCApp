@@ -1,8 +1,13 @@
 package com.nasirbashak007.canteenui;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
@@ -10,11 +15,28 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.susmit.mailsender.MailSender;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+@SuppressLint("ValidFragment")
 public class AddDialog extends AppCompatDialogFragment {
 
     private EditText editTextAmount;
+    private FirebaseObject object;
+    private Context context;
+
+    public AddDialog(Context c, FirebaseObject person){
+        object = person;
+        context = c;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -52,11 +74,26 @@ public class AddDialog extends AppCompatDialogFragment {
                         Toast.makeText(getContext(), amount , Toast.LENGTH_SHORT).show();
 
                         Toast.makeText(getContext(), "From The Class " + personDetails.getAmount(), Toast.LENGTH_SHORT).show();
+
+                        DateFormat df = DateFormat.getDateInstance();
+                        DateFormat tf = DateFormat.getTimeInstance();
+
+                        Map<String, Object> updates = new HashMap<>();
+                        String ut = object.getTransactions();
+                        if(ut==null || ut.equals("null"))
+                            ut = "Added an amount of Rupees "+amount+" on "+ df.format(new Date())+" at "+tf.format(new Date())+".\n ";
+                        else
+                            ut += "Added an amount of Rupees "+amount+" on "+ df.format(new Date())+" at "+tf.format(new Date())+".\n ";
+                        updates.put("transactions", object.getTransactions()+ut);
+                        MainActivity.database.getReference().child(object.getUsn()).child("transactions").child(df.format(new Date())+" "+tf.format(new Date())).setValue(amount, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                Toast.makeText(context, "Transaction completed successfully!",Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
                 });
         editTextAmount = (EditText) view.findViewById(R.id.editTextAmount);
-
-
 
         return builder.create();
     }
