@@ -1,5 +1,6 @@
 package com.nasirbashak007.canteenui;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     Animation topToBottom, bottomToTop;
     Intent UserPage;
 
+    ProgressDialog pd;
+
     ValueEventListener listener;
 
     static String email = "";
@@ -63,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
+
+        pd = new ProgressDialog(this);
+        pd.setTitle("Fetching Data");
+        pd.setMessage("Please Wait...");
+        pd.show();
         RootLayout = findViewById(R.id.root_layout);
 
         onDisplay = new ArrayList<>();
@@ -91,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     }
+                    pd.dismiss();
                     database.getReference().removeEventListener(this);
                 }
             }
@@ -114,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void AddTheAmount(FirebaseObject o) {
-        AddDialog addDialog = new AddDialog(MainActivity.this,o);
+    public void AddTheAmount(FirebaseObject o, TextView tv) {
+        AddDialog addDialog = new AddDialog(MainActivity.this, tv, o);
         addDialog.show(getSupportFragmentManager(), "Add Dialog");
     }
 
@@ -127,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout L2 = cardRoot.findViewById(R.id.second_layout);
 
         TextView userNameTv = cardRoot.findViewById(R.id.user_name_textview);
-        TextView userAmountTv = cardRoot.findViewById(R.id.user_amount_textview);
+        final TextView userAmountTv = cardRoot.findViewById(R.id.user_amount_textview);
         Button addButton = cardRoot.findViewById(R.id.add_button);
         Button deductButton = cardRoot.findViewById(R.id.deduct_button);
 
@@ -139,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddTheAmount(object);
+                AddTheAmount(object,userAmountTv);
                 Toast.makeText(getApplicationContext(), "Adding for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
             }
         });

@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseError;
@@ -30,12 +31,14 @@ import java.util.Map;
 public class AddDialog extends AppCompatDialogFragment {
 
     private EditText editTextAmount;
+    private TextView toChange;
     private FirebaseObject object;
     private Context context;
 
-    public AddDialog(Context c, FirebaseObject person){
+    public AddDialog(Context c, TextView tv, FirebaseObject person){
         object = person;
         context = c;
+        toChange = tv;
     }
 
     @Override
@@ -80,9 +83,11 @@ public class AddDialog extends AppCompatDialogFragment {
                         MainActivity.database.getReference().child(object.getUsn()).child("transactions").child(df.format(new Date()) + " " + tf.format(new Date())).setValue("Added "+amount, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                MainActivity.database.getReference().child(object.getUsn()).child("amount").setValue(String.valueOf(Integer.parseInt(object.getAmount()) + Integer.parseInt(amount)), new DatabaseReference.CompletionListener() {
+                                final String newAmount = String.valueOf(Integer.parseInt(object.getAmount()) + Integer.parseInt(amount));
+                                MainActivity.database.getReference().child(object.getUsn()).child("amount").setValue(newAmount, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                        toChange.setText(newAmount);
                                         Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                     }
                                 });
