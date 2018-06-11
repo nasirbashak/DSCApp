@@ -47,48 +47,45 @@ public class AddDialog extends AppCompatDialogFragment {
 
         View view = inflater.inflate(R.layout.add_dialog_layout, null);
 
-        builder.setView(view)
-                .setTitle("Adding Credentials")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setView(view).setTitle("Adding Credentials").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(getContext(), "Credentials Cancelled", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                }).setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         //Name, USN, Phone, Mail
                         //TODO: Fill these
                         String senderID = "someone@gmail.com";
-                        String password="********"; //TODO: Maybe set up an encrypted string, and decpypt on call
+                        String password = "********"; //TODO: Maybe set up an encrypted string, and decpypt on call
                         String recvID = "otherperson@somemail.com";
                         String subject = "Some Subject";
                         String message = "Some text";
                         //new MailSender(senderID,password).sendMailAsync(recvID,subject,message);
 
-                        String amount = editTextAmount.getText().toString().trim();
+                        final String amount = editTextAmount.getText().toString().trim();
 
                         PersonDetails personDetails = new PersonDetails(amount);
-                        Toast.makeText(getContext(), amount , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), amount, Toast.LENGTH_SHORT).show();
 
                         Toast.makeText(getContext(), "From The Class " + personDetails.getAmount(), Toast.LENGTH_SHORT).show();
 
+                        //Get date and time
                         DateFormat df = DateFormat.getDateInstance();
                         DateFormat tf = DateFormat.getTimeInstance();
 
-                        Map<String, Object> updates = new HashMap<>();
-                        String ut = object.getTransactions();
-                        if(ut==null || ut.equals("null"))
-                            ut = "Added an amount of Rupees "+amount+" on "+ df.format(new Date())+" at "+tf.format(new Date())+".\n ";
-                        else
-                            ut += "Added an amount of Rupees "+amount+" on "+ df.format(new Date())+" at "+tf.format(new Date())+".\n ";
-                        updates.put("transactions", object.getTransactions()+ut);
-                        MainActivity.database.getReference().child(object.getUsn()).child("transactions").child(df.format(new Date())+" "+tf.format(new Date())).setValue(amount, new DatabaseReference.CompletionListener() {
+                        //Update transactions list
+                        MainActivity.database.getReference().child(object.getUsn()).child("transactions").child(df.format(new Date()) + " " + tf.format(new Date())).setValue("Added "+amount, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                Toast.makeText(context, "Transaction completed successfully!",Toast.LENGTH_LONG).show();
+                                MainActivity.database.getReference().child(object.getUsn()).child("amount").setValue(String.valueOf(Integer.parseInt(object.getAmount()) + Integer.parseInt(amount)), new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                        Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
                         });
                     }

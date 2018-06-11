@@ -3,6 +3,7 @@ package com.nasirbashak007.canteenui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,9 +31,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,8 +84,12 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     Iterable<DataSnapshot> mdata = dataSnapshot.getChildren();
                     for (DataSnapshot ds : mdata) {
-                        FirebaseObject temp = ds.getValue(FirebaseObject.class);
-                        addNewAnimatedCard(temp);
+                        try {
+                            FirebaseObject temp = new FirebaseObject((HashMap) ds.getValue());
+                            addNewAnimatedCard(temp);
+                        }catch (NullPointerException e){
+
+                        }
                     }
                     database.getReference().removeEventListener(this);
                 }
@@ -100,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
     public void addUser(View view) {
         startActivity(new Intent(this, AddUserActivity.class));
     }
-
 
     public void userPage(View view) {
         UserPage = new Intent(this, UserDetails.class);
@@ -126,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         Button deductButton = cardRoot.findViewById(R.id.deduct_button);
 
         userNameTv.setText(object.getName());
+        userAmountTv.setText(object.getAmount());
         addButton.setContentDescription(object.getUsn());
         deductButton.setContentDescription(object.getUsn());
 
@@ -134,6 +141,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AddTheAmount(object);
                 Toast.makeText(getApplicationContext(), "Adding for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
+            }
+        });
+        userAmountTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, TransactionViewActivity.class);
+                Toast.makeText(MainActivity.this,object.getTransactions().get(object.getTransactions().keySet().toArray()[0]),Toast.LENGTH_LONG).show();
+                i.putExtra("values",object.getTransactions());
+                startActivity(i);
             }
         });
         deductButton.setOnClickListener(new View.OnClickListener() {

@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nasirbashak007.canteenui">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,15 +20,15 @@
         </activity>
         <activity
             android:name=".AddUserActivity"
-            android:label="ADD User" >
-        </activity>
+            android:label="ADD User"></activity>
         <activity
             android:name=".AmountDetailsActivity"
             android:label="Amount Details" />
-        <activity android:name=".UserDetails"></activity>
-        <activity android:name=".LoginActivity" android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+        <activity android:name=".UserDetails" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".TransactionViewActivity"></activity>
     </application>
 
 </manifest>
