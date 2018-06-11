@@ -70,6 +70,11 @@ public class AddDialog extends AppCompatDialogFragment {
 
                         final String amount = editTextAmount.getText().toString().trim();
 
+                        
+
+
+
+
                         PersonDetails personDetails = new PersonDetails(amount);
                         Toast.makeText(getContext(), amount, Toast.LENGTH_SHORT).show();
 
