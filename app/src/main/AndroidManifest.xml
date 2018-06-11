@@ -20,11 +20,15 @@
         </activity>
         <activity
             android:name=".AddUserActivity"
-            android:label="ADD User" />
+            android:label="ADD User"></activity>
         <activity
             android:name=".AmountDetailsActivity"
             android:label="Amount Details" />
-        <activity android:name=".UserDetails"></activity>
+        <activity android:name=".UserDetails" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".TransactionViewActivity"></activity>
     </application>
 
 </manifest>

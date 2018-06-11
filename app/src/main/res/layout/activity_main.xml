@@ -1,98 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b4adad"
-    android:orientation="vertical"
-    android:padding="16dp"
     tools:context="com.nasirbashak007.canteenui.MainActivity">
-
-    <LinearLayout
-        android:id="@+id/first_layout"
-        android:layout_width="363dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/user_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:onClick="userPage"
-            android:src="@drawable/samplepic" />
-
-        <TextView
-            android:id="@+id/user_name_textview"
-            android:layout_width="130dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="NASIR"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/user_amount_textview"
-            android:layout_width="130dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="500/-"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/second_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <Button
-            android:id="@+id/add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/button_add"
-            android:onClick="AddTheAmount"
-            android:text="ADD" />
-
-        <Button
-            android:id="@+id/deduct_button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/button_deduct"
-            android:text="Deduct" />
-
-
-    </LinearLayout>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom|end"
-        android:padding="16dp">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="addUser"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
-
+        android:background="#b4adad"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:id="@+id/root_layout">
     </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="addUser"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
-</LinearLayout>
+</RelativeLayout>
