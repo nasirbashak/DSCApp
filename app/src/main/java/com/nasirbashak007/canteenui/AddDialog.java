@@ -37,16 +37,17 @@ public class AddDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
+                        String amount = editTextAmount.getText().toString().trim();
 
                         //TODO: Fill these
-                        String senderID = "someone@gmail.com";
+                        String senderID = "senderemail@gmail.com";
                         String password="********"; //TODO: Maybe set up an encrypted string, and decpypt on call
-                        String recvID = "otherperson@somemail.com";
-                        String subject = "Some Subject";
-                        String message = "Some text";
+                        String recvID = "reciever@some-mail.com";
+                        String subject = "Sir MVIT Shop";
+                        String message = "Your last transaction credit Amount is " +amount ;
                         //new MailSender(senderID,password).sendMailAsync(recvID,subject,message);
 
-                        String amount = editTextAmount.getText().toString().trim();
+
 
                         PersonDetails personDetails = new PersonDetails(amount);
                         Toast.makeText(getContext(), amount , Toast.LENGTH_SHORT).show();
