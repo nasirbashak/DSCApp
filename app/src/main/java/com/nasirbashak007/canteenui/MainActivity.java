@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     Intent UserPage;
 
     ValueEventListener listener;
+    ValueEventListener single;
 
     static String email = "";
     static String password = "";
@@ -70,7 +72,13 @@ public class MainActivity extends AppCompatActivity {
 
     List<FirebaseObject> onDisplay;
 
+    Bitmap tempPic;
+
     ProgressDialog pd;
+
+    final int USER_ADD_ACTIVITY = 2;
+
+    static OnProfilePictureUploadedListener pul;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setTitle("Fetching Data");
         pd.setMessage("Please Wait...");
+        pd.show();
 
         RootLayout = findViewById(R.id.root_layout);
 
@@ -100,6 +109,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+
+        pul = new OnProfilePictureUploadedListener() {
+            @Override
+            public void onUploaded(FirebaseObject object, Bitmap image) {
+                addNewAnimatedCard(object,image);
+            }
+        };
+
         database.getReference().addValueEventListener(listener);
     }
 
@@ -119,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         addDialog.show(getSupportFragmentManager(), "Add Dialog");
     }
 
-    public void addNewAnimatedCard(final FirebaseObject object){
+    public void addNewAnimatedCard(final FirebaseObject object, @Nullable Bitmap img){
         final FirebaseObject fo = object;
         View cardRoot = getLayoutInflater().inflate(R.layout.data_view, null);
 
@@ -150,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, TransactionViewActivity.class);
                 Toast.makeText(MainActivity.this,object.getTransactions().get(object.getTransactions().keySet().toArray()[0]),Toast.LENGTH_LONG).show();
                 i.putExtra("values",object.getTransactions());
+                i.putExtra("total",object.getAmount());
                 startActivity(i);
             }
         });
@@ -160,22 +178,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            final File temp = File.createTempFile("image",".jpg");
-            FirebaseStorage.getInstance().getReference().child(fo.getUsn()+".jpg").getFile(temp).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(temp.getAbsolutePath());
-                    profilePic.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Log.e("Image Download Error","Cannot download profile picture");
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (img == null) {
+            try {
+                final File temp = File.createTempFile("image", ".jpg");
+                FirebaseStorage.getInstance().getReference().child(fo.getUsn() + ".jpg").getFile(temp).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Bitmap bitmap = BitmapFactory.decodeFile(temp.getAbsolutePath());
+                        profilePic.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.e("Image Download Error", "Cannot download profile picture");
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            profilePic.setImageBitmap(img);
         }
 
         topToBottom = AnimationUtils.loadAnimation(this, R.anim.top_to_bottom_left);
@@ -190,15 +213,10 @@ public class MainActivity extends AppCompatActivity {
     private class DataFetchTask extends AsyncTask<DataSnapshot,FirebaseObject,Void>{
 
         @Override
-        protected void onPreExecute() {
-            pd.show();
-        }
-
-        @Override
         protected void onProgressUpdate(FirebaseObject... values) {
             if(pd.isShowing())
                 pd.dismiss();
-            addNewAnimatedCard(values[0]);
+            addNewAnimatedCard(values[0],null);
         }
 
         @Override
