@@ -108,6 +108,10 @@ public class AddUserActivity extends AppCompatActivity {
     }
 
     public void saveTheUserDetails(View view) {
+        if(usn.getText().toString().isEmpty() || name.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),"USN and Name fields can't be empty!",Toast.LENGTH_LONG).show();
+            return;
+        }
         final FirebaseObject toStore = new FirebaseObject(name.getText().toString(),usn.getText().toString(),phone.getText().toString(),email.getText().toString());
         MainActivity.database.getReference().child(usn.getText().toString()).setValue(toStore).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
