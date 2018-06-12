@@ -238,8 +238,8 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }
-                database.getReference().removeEventListener(listener);
             }
+            database.getReference().removeEventListener(listener);
             return null;
         }
 
