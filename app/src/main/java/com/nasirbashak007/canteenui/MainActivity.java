@@ -3,6 +3,8 @@ package com.nasirbashak007.canteenui;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -24,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
@@ -34,18 +38,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout RootLayout;
     Animation topToBottom, bottomToTop;
     Intent UserPage;
-
-    ProgressDialog pd;
 
     ValueEventListener listener;
 
@@ -61,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
     List<FirebaseObject> onDisplay;
 
+    ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setTitle("Fetching Data");
         pd.setMessage("Please Wait...");
-        pd.show();
+
         RootLayout = findViewById(R.id.root_layout);
 
         onDisplay = new ArrayList<>();
@@ -80,28 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
         listener = new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                long databaseChildCount=dataSnapshot.getChildrenCount();
-                if(databaseChildCount==0){
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    Iterable<DataSnapshot> mdata = dataSnapshot.getChildren();
-                    for (DataSnapshot ds : mdata) {
-                        try {
-                            FirebaseObject temp = new FirebaseObject((HashMap) ds.getValue());
-                            addNewAnimatedCard(temp);
-                        }catch (NullPointerException e){
-
-                        }
-                    }
-                    pd.dismiss();
-                    database.getReference().removeEventListener(this);
-                }
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                new DataFetchTask().execute(dataSnapshot);
             }
 
             @Override
@@ -139,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView userAmountTv = cardRoot.findViewById(R.id.user_amount_textview);
         Button addButton = cardRoot.findViewById(R.id.add_button);
         Button deductButton = cardRoot.findViewById(R.id.deduct_button);
+        final CircleImageView profilePic = cardRoot.findViewById(R.id.user_image);
 
         userNameTv.setText(object.getName());
         userAmountTv.setText(object.getAmount());
@@ -168,6 +159,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        try {
+            final File temp = File.createTempFile("image",".jpg");
+            FirebaseStorage.getInstance().getReference().child(fo.getUsn()+".jpg").getFile(temp).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(temp.getAbsolutePath());
+                    profilePic.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Log.e("Image Download Error","Cannot download profile picture");
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         topToBottom = AnimationUtils.loadAnimation(this, R.anim.top_to_bottom_left);
         L1.setAnimation(topToBottom);
 
@@ -175,5 +184,49 @@ public class MainActivity extends AppCompatActivity {
         L2.setAnimation(bottomToTop);
 
         RootLayout.addView(cardRoot);
+    }
+
+    private class DataFetchTask extends AsyncTask<DataSnapshot,FirebaseObject,Void>{
+
+        @Override
+        protected void onPreExecute() {
+            pd.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(FirebaseObject... values) {
+            if(pd.isShowing())
+                pd.dismiss();
+            addNewAnimatedCard(values[0]);
+        }
+
+        @Override
+        protected Void doInBackground(DataSnapshot... dataSnapshots) {
+            long databaseChildCount = dataSnapshots[0].getChildrenCount();
+            if (databaseChildCount == 0) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Iterable<DataSnapshot> mdata = dataSnapshots[0].getChildren();
+                for (DataSnapshot ds : mdata) {
+                    try {
+                        FirebaseObject temp = new FirebaseObject((HashMap) ds.getValue());
+                        publishProgress(temp);
+                    } catch (NullPointerException e) {
+
+                    }
+                }
+                database.getReference().removeEventListener(listener);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            pd.dismiss();
+        }
     }
 }

@@ -6,14 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.nasirbashak007.canteenui.MainActivity">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#b4adad"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:id="@+id/root_layout">
-    </LinearLayout>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#b4adad"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:id="@+id/root_layout">
+        </LinearLayout>
+    </ScrollView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="50dp"
