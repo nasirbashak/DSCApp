@@ -85,7 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="1dp">
+            android:padding="1dp"
+            android:id="@+id/phone_layout">
 
             <TextView
                 android:layout_width="100dp"
@@ -117,6 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/mail_layout"
             android:padding="1dp">
 
             <TextView
@@ -145,28 +147,23 @@
         </LinearLayout>
 
 
-    <LinearLayout
-
-        android:id="@+id/image_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_imageview"
             android:layout_width="170dp"
             android:layout_height="170dp"
-            android:background="@drawable/samplepic"
+            android:src="@drawable/samplepic"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="50dp"
             android:onClick="openCamera" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="50dp"
             android:background="@drawable/button_save"
             android:onClick="saveTheUserDetails"
 
@@ -174,7 +171,5 @@
             android:textColor="#fff"
             android:textSize="20dp"
             android:textStyle="bold" />
-    </LinearLayout>
-
 
 </LinearLayout>
