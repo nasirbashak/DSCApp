@@ -1,8 +1,5 @@
 package com.nasirbashak007.canteenui;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.HashMap;
 
 public class FirebaseObject{
