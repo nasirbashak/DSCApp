@@ -92,7 +92,7 @@ public class AddDialog extends AppCompatDialogFragment {
                                 MainActivity.database.getReference().child(object.getUsn()).child("amount").setValue(newAmount, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                        toChange.setText(newAmount);
+                                        toChange.setText("Net Amount:  "+newAmount);
                                         Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                     }
                                 });
