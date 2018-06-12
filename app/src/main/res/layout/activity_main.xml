@@ -20,12 +20,12 @@
     </ScrollView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:onClick="addUser"
-        android:layout_alignParentEnd="true"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="10dp"
+        android:onClick="addUser"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </RelativeLayout>

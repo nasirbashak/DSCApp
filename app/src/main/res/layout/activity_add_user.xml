@@ -3,140 +3,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="#fff"
     android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
 
     tools:context="com.nasirbashak007.canteenui.AddUserActivity">
 
+
+        <LinearLayout
+            android:id="@+id/name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <TextView
+                android:id="@+id/name_textview"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/design_name_usn"
+                android:gravity="center"
+                android:text="NAME"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/name_edittext"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:gravity="center"
+                android:hint="Name"
+                android:maxLength="25"
+                android:textColor="#000"
+                android:textColorHint="#ffb428"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/usn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <TextView
+                android:id="@+id/usn_textview"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/design_name_usn"
+                android:gravity="center"
+                android:text="USN"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/usn_edittext"
+                android:layout_width="200dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="40dp"
+                android:gravity="center"
+                android:hint="USN"
+                android:maxLength="10"
+                android:textColor="#000"
+                android:textColorHint="#ffb428"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/design_name_usn"
+                android:gravity="center"
+                android:text="PHONE"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/phone_edittext"
+                android:layout_width="200dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="40dp"
+                android:gravity="center"
+                android:hint="Phone"
+                android:inputType="numberSigned"
+                android:maxLength="10"
+                android:textColor="#000"
+                android:textColorHint="#ffb428"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/design_name_usn"
+                android:gravity="center"
+                android:text="EMAIL-ID"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/email_edittext"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:gravity="center"
+                android:hint="Email"
+                android:maxLength="25"
+                android:textColor="#000"
+                android:textColorHint="#ffb428"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
     <LinearLayout
-        android:id="@+id/name_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/name_textview"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/design_name_usn"
-            android:gravity="center"
-            android:text="NAME"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/name_edittext"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:gravity="center"
-            android:hint="Name"
-            android:maxLength="20"
-            android:textColor="#ffb428"
-            android:textColorHint="#ffb428"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/usn_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/usn_textview"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/design_name_usn"
-            android:gravity="center"
-            android:text="USN"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/usn_edittext"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:gravity="center"
-            android:hint="USN"
-            android:maxLength="10"
-            android:textColor="#ffb428"
-            android:textColorHint="#ffb428"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/design_name_usn"
-            android:gravity="center"
-            android:text="PHONE"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/phone_edittext"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:gravity="center"
-            android:hint="Phone"
-            android:maxLength="10"
-            android:textColor="#ffb428"
-            android:textColorHint="#ffb428"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/design_name_usn"
-            android:gravity="center"
-            android:text="EMAIL-ID"
-            android:textColor="#000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/email_edittext"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:gravity="center"
-            android:hint="Email"
-            android:maxLength="10"
-            android:textColor="#ffb428"
-            android:textColorHint="#ffb428"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/image_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -148,18 +158,18 @@
             android:id="@+id/profile_imageview"
             android:layout_width="170dp"
             android:layout_height="170dp"
-            android:onClick="openCamera"
-            android:src="@mipmap/ic_launcher" />
+            android:background="@drawable/samplepic"
+            android:onClick="openCamera" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/button_save"
             android:onClick="saveTheUserDetails"
-            android:padding="10dp"
+
             android:text="SAVE"
             android:textColor="#fff"
             android:textSize="20dp"
