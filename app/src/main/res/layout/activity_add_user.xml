@@ -40,6 +40,7 @@
                 android:hint="Name"
                 android:maxLength="25"
                 android:textColor="#000"
+                android:maxLines="1"
                 android:textColorHint="#ffb428"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -140,6 +141,7 @@
                 android:hint="Email"
                 android:maxLength="25"
                 android:textColor="#000"
+                android:maxLines="1"
                 android:textColorHint="#ffb428"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -154,7 +156,7 @@
             android:src="@drawable/samplepic"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="15dp"
             android:onClick="openCamera" />
 
         <Button
@@ -163,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/button_save"
             android:onClick="saveTheUserDetails"
 
