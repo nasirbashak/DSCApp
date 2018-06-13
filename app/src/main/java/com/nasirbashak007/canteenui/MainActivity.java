@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, TransactionViewActivity.class);
-                Toast.makeText(MainActivity.this,object.getTransactions().get(object.getTransactions().keySet().toArray()[0]),Toast.LENGTH_LONG).show();
                 i.putExtra("values",object.getTransactions());
                 i.putExtra("total",object.getAmount());
                 startActivity(i);
