@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         if (auth.getCurrentUser() != null) {
             Toast.makeText(LoginActivity.this,auth.getCurrentUser().getEmail(),Toast.LENGTH_SHORT).show();
             MainActivity.EmailSenderID = auth.getCurrentUser().getEmail();
-            MainActivity.EmailPassword = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).getString("password", null);
+            MainActivity.EmailPassword = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("password", null);
             Intent i=new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                                     MainActivity.EmailSenderID = email;
                                     MainActivity.EmailPassword = password;
                                     //Toast.makeText(LoginActivity.this,password,Toast.LENGTH_LONG).show();
-                                    PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit().putString("password", password).commit();
+                                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("password", password).commit();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();

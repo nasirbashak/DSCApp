@@ -2,6 +2,7 @@ package com.nasirbashak007.canteenui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -93,7 +94,7 @@ public class SignupActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                                    getSharedPreferences("password",MODE_PRIVATE).edit().putString("password", password).apply();
+                                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("password", password).apply();
                                     finish();
                                 }
                             }
