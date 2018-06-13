@@ -15,7 +15,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,18 +26,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.security.Permission;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddUserActivity extends AppCompatActivity {
 
-    LinearLayout L1,L2,L3;
+    LinearLayout L1,L2;
     Animation leftToRight,rightToLeft,bottomToTop;
     EditText name,usn,phone,email;
     Button saveButton;
     CircleImageView profilePic;
-    Intent main;
+    boolean profilePicChanged;
 
     final int CAPTURE_REQUEST_CODE = 1;
     final int CAMERA_PERMISSION_REQUEST = 0;
@@ -49,6 +47,8 @@ public class AddUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_user);
         L1=findViewById(R.id.name_layout);
         L2=findViewById(R.id.usn_layout);
+
+        profilePicChanged = true;
 
         name = findViewById(R.id.name_edittext);
         usn = findViewById(R.id.usn_edittext);
@@ -71,11 +71,9 @@ public class AddUserActivity extends AppCompatActivity {
         findViewById(R.id.mail_layout).setAnimation(rightToLeft);
 
         bottomToTop= AnimationUtils.loadAnimation(this,R.anim.bottom_to_top_linear);
-        /*L3.setAnimation(bottomToTop);*/
+
         profilePic.setAnimation(bottomToTop);
         saveButton.setAnimation(bottomToTop);
-
-
     }
 
     public void openCamera(View view) {
@@ -113,6 +111,7 @@ public class AddUserActivity extends AppCompatActivity {
             return;
         }
         final FirebaseObject toStore = new FirebaseObject(name.getText().toString(),usn.getText().toString(),phone.getText().toString(),email.getText().toString());
+
         MainActivity.database.getReference().child(usn.getText().toString()).setValue(toStore).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

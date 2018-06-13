@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -132,21 +134,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void AddTheAmount(FirebaseObject o, TextView tv) {
-        AddDialog addDialog = new AddDialog(MainActivity.this, tv, o);
+        AddDialog addDialog = new AddDialog(MainActivity.this, tv, o,false);
+        addDialog.show(getSupportFragmentManager(), "Add Dialog");
+    }
+
+    public void deductAmount(FirebaseObject o, TextView tv) {
+        AddDialog addDialog = new AddDialog(MainActivity.this, tv, o,true);
         addDialog.show(getSupportFragmentManager(), "Add Dialog");
     }
 
     public void addNewAnimatedCard(final FirebaseObject object, @Nullable Bitmap img){
         final FirebaseObject fo = object;
-        View cardRoot = getLayoutInflater().inflate(R.layout.data_view, null);
 
-        LinearLayout L1 = cardRoot.findViewById(R.id.first_layout);
+        final View cardRoot = getLayoutInflater().inflate(R.layout.data_view, null);
+
+        RelativeLayout L1 = cardRoot.findViewById(R.id.first_layout);
         LinearLayout L2 = cardRoot.findViewById(R.id.second_layout);
 
-        TextView userNameTv = cardRoot.findViewById(R.id.user_name_textview);
+        final TextView userNameTv = cardRoot.findViewById(R.id.user_name_textview);
         final TextView userAmountTv = cardRoot.findViewById(R.id.user_amount_textview);
         Button addButton = cardRoot.findViewById(R.id.add_button);
         Button deductButton = cardRoot.findViewById(R.id.deduct_button);
+        ImageView editButton = cardRoot.findViewById(R.id.edit_button);
         final CircleImageView profilePic = cardRoot.findViewById(R.id.user_image);
 
         userNameTv.setText(object.getName());
@@ -174,7 +183,81 @@ public class MainActivity extends AppCompatActivity {
         deductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                deductAmount(object,userAmountTv);
                 Toast.makeText(getApplicationContext(), "Deducting for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
+            }
+        });
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final View editView = getLayoutInflater().inflate(R.layout.dialog_user_details_change,null);
+                ((EditText)editView.findViewById(R.id.name_dialog_edittext)).setText(object.getName());
+                ((EditText)editView.findViewById(R.id.usn_dialog_edittext)).setText(object.getUsn());
+                ((EditText)editView.findViewById(R.id.phone_dialog_edittext)).setText(object.getPhone());
+                ((EditText)editView.findViewById(R.id.email_dialog_edittext)).setText(object.getEmail());
+
+                editView.findViewById(R.id.usn_dialog_edittext).setEnabled(false);
+
+                final AlertDialog changer = new AlertDialog.Builder(MainActivity.this).setView(editView).setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        userNameTv.setText(((EditText)editView.findViewById(R.id.name_dialog_edittext)).getText().toString());
+                        database.getReference().child((
+                                (EditText)editView.findViewById(R.id.usn_dialog_edittext)).getText().toString())
+                                    .setValue(new FirebaseObject(
+                                        ((EditText)editView.findViewById(R.id.name_dialog_edittext)).getText().toString(),
+                                        ((EditText)editView.findViewById(R.id.usn_dialog_edittext)).getText().toString(),
+                                        ((EditText)editView.findViewById(R.id.phone_dialog_edittext)).getText().toString(),
+                                        ((EditText)editView.findViewById(R.id.email_dialog_edittext)).getText().toString(),
+                                        object.getAmount()
+                        )).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(MainActivity.this,"Changed Successfully",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }).setNeutralButton("DELETE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new AlertDialog.Builder(MainActivity.this).setTitle("WARNING!").setMessage("This cannot be undone. Continue?").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                RootLayout.removeView(cardRoot);
+                                database.getReference().child(object.getUsn()).removeValue(new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                        FirebaseStorage.getInstance().getReference().child(object.getUsn()+".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(MainActivity.this,"Removed Successfully",Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+                changer.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        changer.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.GREEN);
+                        changer.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                        changer.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.RED);
+                    }
+                });
+                changer.show();
             }
         });
 
@@ -186,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         Bitmap bitmap = BitmapFactory.decodeFile(temp.getAbsolutePath());
                         profilePic.setImageBitmap(bitmap);
+                        //editIntent.putExtra("profilepic", bitmap);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -199,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             profilePic.setImageBitmap(img);
+            //editIntent.putExtra("profilepic", img);
         }
 
         topToBottom = AnimationUtils.loadAnimation(this, R.anim.top_to_bottom_left);
