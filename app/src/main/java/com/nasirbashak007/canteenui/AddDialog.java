@@ -16,8 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.susmit.mailsender.MailSender;
 
 import java.text.DateFormat;
@@ -36,7 +38,14 @@ public class AddDialog extends AppCompatDialogFragment {
     private Context context;
     private boolean deduct;
 
-    public AddDialog(Context c, TextView tv, FirebaseObject person, boolean deduct){
+    static String EmailSenderID;
+    static String EmailPassword;
+    static String EmailRecvID;
+    static String EmailSubject;
+    static String EmailMessage;
+    static String userName;
+
+    public AddDialog(Context c, TextView tv, FirebaseObject person, boolean deduct) {
         object = person;
         context = c;
         toChange = tv;
@@ -52,7 +61,7 @@ public class AddDialog extends AppCompatDialogFragment {
 
         View view = inflater.inflate(R.layout.add_dialog_layout, null);
 
-        if(!deduct) {
+        if (!deduct) {
             builder.setView(view).setTitle("Adding Credentials").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -62,14 +71,40 @@ public class AddDialog extends AppCompatDialogFragment {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
+
+                    MainActivity.database.getReference().child(object.getUsn()).child("name").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            Toast.makeText(context, "Name from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
+                            userName = (String) snapshot.getValue();
+                            // System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+
+
+                    MainActivity.database.getReference().child(object.getUsn()).child("email").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            Toast.makeText(context, "Email from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
+                            EmailRecvID = (String) snapshot.getValue();
+                            // System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+
                     //Name, USN, Phone, Mail
                     //TODO: Fill these
-                    String senderID = "someone@gmail.com";
-                    String password = "********"; //TODO: Maybe set up an encrypted string, and decpypt on call
-                    String recvID = "otherperson@somemail.com";
-                    String subject = "Some Subject";
-                    String message = "Some text";
-                    //new MailSender(senderID,password).sendMailAsync(recvID,subject,message);
+                    EmailSenderID = "user@gmail.com";
+                    EmailPassword = "********"; //TODO: Maybe set up an encrypted string, and decpypt on call
+                    EmailSubject = "GK Canteen Statement";
+
 
                     final String amount = editTextAmount.getText().toString().trim();
 
@@ -92,10 +127,15 @@ public class AddDialog extends AppCompatDialogFragment {
                                 @Override
                                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                                     toChange.setText(newAmount);
-                                    HashMap<String,String> m = object.getTransactions();
+                                    HashMap<String, String> m = object.getTransactions();
                                     m.put(df.format(new Date()) + " " + tf.format(new Date()), "Added " + amount);
                                     object.setTransactions(m);
                                     object.setAmount(newAmount);
+
+                                    EmailMessage = "Dear " + userName + " .\nThank you for vitsiting GK shop.\nYou just credited with the amount " + amount + " .\n" +
+                                            "Your Total Net Credit amount is " + newAmount;
+
+                                   // new MailSender(EmailSenderID, EmailPassword).sendMailAsync(EmailRecvID, EmailSubject, EmailMessage);
                                     Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -103,25 +143,49 @@ public class AddDialog extends AppCompatDialogFragment {
                     });
                 }
             });
-        }
-        else{
+        } else {
             builder.setView(view).setTitle("Deducting Credentials").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Toast.makeText(getContext(), "Credentials Cancelled", Toast.LENGTH_SHORT).show();
                 }
-            }).setPositiveButton("Duduct", new DialogInterface.OnClickListener() {
+            }).setPositiveButton("Deduct", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
+                    MainActivity.database.getReference().child(object.getUsn()).child("name").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            Toast.makeText(context, "Name from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
+                            userName = (String) snapshot.getValue();
+                            //System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+
+
+                    MainActivity.database.getReference().child(object.getUsn()).child("email").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            Toast.makeText(context, "Email from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
+                            EmailRecvID = (String) snapshot.getValue();
+                            // System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+
+
                     //Name, USN, Phone, Mail
                     //TODO: Fill these
-                    String senderID = "someone@gmail.com";
-                    String password = "********"; //TODO: Maybe set up an encrypted string, and decpypt on call
-                    String recvID = "otherperson@somemail.com";
-                    String subject = "Some Subject";
-                    String message = "Some text";
-                    //new MailSender(senderID,password).sendMailAsync(recvID,subject,message);
+                    EmailSenderID = "user@gmail.com";
+                    EmailPassword = "********"; //TODO: Maybe set up an encrypted string, and decpypt on call
+                    EmailSubject = "GK Canteen Statement";
 
                     final String amount = editTextAmount.getText().toString().trim();
 
@@ -136,7 +200,7 @@ public class AddDialog extends AppCompatDialogFragment {
                     final DateFormat tf = DateFormat.getTimeInstance();
 
                     final String newAmount = String.valueOf(Integer.parseInt(object.getAmount()) - Integer.parseInt(amount));
-                    if(Integer.parseInt(newAmount)<0) {
+                    if (Integer.parseInt(newAmount) < 0) {
                         Toast.makeText(getContext(), "Insufficient amount", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -148,10 +212,16 @@ public class AddDialog extends AppCompatDialogFragment {
                                 @Override
                                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                                     toChange.setText(newAmount);
-                                    HashMap<String,String> m = object.getTransactions();
+                                    HashMap<String, String> m = object.getTransactions();
                                     m.put(df.format(new Date()) + " " + tf.format(new Date()), "Deducted " + amount);
                                     object.setTransactions(m);
                                     object.setAmount(newAmount);
+
+                                    EmailMessage = "Dear " + userName + " .\nThank you for visiting GK shop.\nYou just debited with the amount " + amount + " .\n" +
+                                            "Your Total Net Credit amount is " + newAmount;
+
+                                    //new MailSender(EmailSenderID, EmailPassword).sendMailAsync(EmailRecvID, EmailSubject, EmailMessage);
+
                                     Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                 }
                             });
