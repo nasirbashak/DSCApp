@@ -204,13 +204,13 @@ public class MainActivity extends AppCompatActivity {
                         userNameTv.setText(((EditText)editView.findViewById(R.id.name_dialog_edittext)).getText().toString());
                         database.getReference().child((
                                 (EditText)editView.findViewById(R.id.usn_dialog_edittext)).getText().toString())
-                                .setValue(new FirebaseObject(
+                                    .setValue(new FirebaseObject(
                                         ((EditText)editView.findViewById(R.id.name_dialog_edittext)).getText().toString(),
                                         ((EditText)editView.findViewById(R.id.usn_dialog_edittext)).getText().toString(),
                                         ((EditText)editView.findViewById(R.id.phone_dialog_edittext)).getText().toString(),
                                         ((EditText)editView.findViewById(R.id.email_dialog_edittext)).getText().toString(),
                                         object.getAmount()
-                                )).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        )).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(MainActivity.this,"Changed Successfully",Toast.LENGTH_LONG).show();
