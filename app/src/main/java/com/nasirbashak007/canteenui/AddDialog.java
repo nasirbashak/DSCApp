@@ -80,8 +80,8 @@ public class AddDialog extends AppCompatDialogFragment {
                     Toast.makeText(getContext(), "From The Class " + personDetails.getAmount(), Toast.LENGTH_SHORT).show();
 
                     //Get date and time
-                    DateFormat df = DateFormat.getDateInstance();
-                    DateFormat tf = DateFormat.getTimeInstance();
+                    final DateFormat df = DateFormat.getDateInstance();
+                    final DateFormat tf = DateFormat.getTimeInstance();
 
                     //Update transactions list
                     MainActivity.database.getReference().child(object.getUsn()).child("transactions").child(df.format(new Date()) + " " + tf.format(new Date())).setValue("Added " + amount, new DatabaseReference.CompletionListener() {
@@ -91,7 +91,8 @@ public class AddDialog extends AppCompatDialogFragment {
                             MainActivity.database.getReference().child(object.getUsn()).child("amount").setValue(newAmount, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                    toChange.setText("Net Amount:  " + newAmount);
+                                    toChange.setText(newAmount);
+                                    object.getTransactions().put(df.format(new Date()) + " " + tf.format(new Date()), "Added " + amount);
                                     Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -128,8 +129,8 @@ public class AddDialog extends AppCompatDialogFragment {
                     Toast.makeText(getContext(), "From The Class " + personDetails.getAmount(), Toast.LENGTH_SHORT).show();
 
                     //Get date and time
-                    DateFormat df = DateFormat.getDateInstance();
-                    DateFormat tf = DateFormat.getTimeInstance();
+                    final DateFormat df = DateFormat.getDateInstance();
+                    final DateFormat tf = DateFormat.getTimeInstance();
 
                     final String newAmount = String.valueOf(Integer.parseInt(object.getAmount()) - Integer.parseInt(amount));
                     if(Integer.parseInt(newAmount)<0) {
@@ -143,7 +144,8 @@ public class AddDialog extends AppCompatDialogFragment {
                             MainActivity.database.getReference().child(object.getUsn()).child("amount").setValue(newAmount, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                    toChange.setText("Net Amount:  " + newAmount);
+                                    toChange.setText(newAmount);
+                                    object.getTransactions().put(df.format(new Date()) + " " + tf.format(new Date()), "Deducted " + amount);
                                     Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                 }
                             });
