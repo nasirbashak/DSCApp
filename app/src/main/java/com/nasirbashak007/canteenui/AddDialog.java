@@ -88,11 +88,15 @@ public class AddDialog extends AppCompatDialogFragment {
                         MainActivity.database.getReference().child(object.getUsn()).child("transactions").child(df.format(new Date()) + " " + tf.format(new Date())).setValue("Added "+amount, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+
+                                final int temp =Integer.parseInt(object.getAmount());
                                 final String newAmount = String.valueOf(Integer.parseInt(object.getAmount()) + Integer.parseInt(amount));
                                 MainActivity.database.getReference().child(object.getUsn()).child("amount").setValue(newAmount, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                                         toChange.setText("Net Amount:  "+newAmount);
+
+                                        Toast.makeText(context,"Previous amount from FB "+temp,Toast.LENGTH_SHORT).show();
                                         Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                     }
                                 });

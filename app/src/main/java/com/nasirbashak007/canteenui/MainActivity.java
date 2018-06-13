@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         onDisplay = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference=database.getReference();
+        databaseReference = database.getReference();
 
         listener = new ValueEventListener() {
             @Override
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         pul = new OnProfilePictureUploadedListener() {
             @Override
             public void onUploaded(FirebaseObject object, Bitmap image) {
-                addNewAnimatedCard(object,image);
+                addNewAnimatedCard(object, image);
             }
         };
 
@@ -136,7 +136,12 @@ public class MainActivity extends AppCompatActivity {
         addDialog.show(getSupportFragmentManager(), "Add Dialog");
     }
 
-    public void addNewAnimatedCard(final FirebaseObject object, @Nullable Bitmap img){
+    public void DeductTheAmount(FirebaseObject o, TextView tv) {
+        DeductDialog deductDialog = new DeductDialog(MainActivity.this, tv, o);
+        deductDialog.show(getSupportFragmentManager(), "Deduct Dialog");
+    }
+
+    public void addNewAnimatedCard(final FirebaseObject object, @Nullable Bitmap img) {
         final FirebaseObject fo = object;
         View cardRoot = getLayoutInflater().inflate(R.layout.data_view, null);
 
@@ -157,24 +162,25 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddTheAmount(object,userAmountTv);
-                Toast.makeText(getApplicationContext(), "Adding for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
+                AddTheAmount(object, userAmountTv);
+                Toast.makeText(getApplicationContext(), "Adding for USN: " + fo.getUsn(), Toast.LENGTH_LONG).show();
             }
         });
         userAmountTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, TransactionViewActivity.class);
-                Toast.makeText(MainActivity.this,object.getTransactions().get(object.getTransactions().keySet().toArray()[0]),Toast.LENGTH_LONG).show();
-                i.putExtra("values",object.getTransactions());
-                i.putExtra("total",object.getAmount());
+                Toast.makeText(MainActivity.this, object.getTransactions().get(object.getTransactions().keySet().toArray()[0]), Toast.LENGTH_LONG).show();
+                i.putExtra("values", object.getTransactions());
+                i.putExtra("total", object.getAmount());
                 startActivity(i);
             }
         });
         deductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Deducting for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
+                DeductTheAmount(object, userAmountTv);
+                Toast.makeText(getApplicationContext(), "Deducting for USN: " + fo.getUsn(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -196,8 +202,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else{
+        } else {
             profilePic.setImageBitmap(img);
         }
 
@@ -210,13 +215,13 @@ public class MainActivity extends AppCompatActivity {
         RootLayout.addView(cardRoot);
     }
 
-    private class DataFetchTask extends AsyncTask<DataSnapshot,FirebaseObject,Void>{
+    private class DataFetchTask extends AsyncTask<DataSnapshot, FirebaseObject, Void> {
 
         @Override
         protected void onProgressUpdate(FirebaseObject... values) {
-            if(pd.isShowing())
+            if (pd.isShowing())
                 pd.dismiss();
-            addNewAnimatedCard(values[0],null);
+            addNewAnimatedCard(values[0], null);
         }
 
         @Override
