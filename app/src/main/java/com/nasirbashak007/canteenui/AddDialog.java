@@ -92,7 +92,10 @@ public class AddDialog extends AppCompatDialogFragment {
                                 @Override
                                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                                     toChange.setText(newAmount);
-                                    object.getTransactions().put(df.format(new Date()) + " " + tf.format(new Date()), "Added " + amount);
+                                    HashMap<String,String> m = object.getTransactions();
+                                    m.put(df.format(new Date()) + " " + tf.format(new Date()), "Added " + amount);
+                                    object.setTransactions(m);
+                                    object.setAmount(newAmount);
                                     Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -107,7 +110,7 @@ public class AddDialog extends AppCompatDialogFragment {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Toast.makeText(getContext(), "Credentials Cancelled", Toast.LENGTH_SHORT).show();
                 }
-            }).setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+            }).setPositiveButton("Duduct", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -145,7 +148,10 @@ public class AddDialog extends AppCompatDialogFragment {
                                 @Override
                                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                                     toChange.setText(newAmount);
-                                    object.getTransactions().put(df.format(new Date()) + " " + tf.format(new Date()), "Deducted " + amount);
+                                    HashMap<String,String> m = object.getTransactions();
+                                    m.put(df.format(new Date()) + " " + tf.format(new Date()), "Deducted " + amount);
+                                    object.setTransactions(m);
+                                    object.setAmount(newAmount);
                                     Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                 }
                             });
