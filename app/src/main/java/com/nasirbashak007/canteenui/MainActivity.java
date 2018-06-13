@@ -62,15 +62,11 @@ public class MainActivity extends AppCompatActivity {
     ValueEventListener listener;
     ValueEventListener single;
 
-    static String email = "";
-    static String password = "";
-
     static FirebaseDatabase database;
     static DatabaseReference databaseReference;
-    static FirebaseApp firebaseApp;
-    private FirebaseAuth auth;
-    static Intent callingIntent;
-    static String DB_NAME;
+
+    static String EmailSenderID;
+    static String EmailPassword;
 
     List<FirebaseObject> onDisplay;
 

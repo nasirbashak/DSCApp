@@ -29,6 +29,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.nasirbashak007.canteenui.MainActivity.EmailPassword;
+import static com.nasirbashak007.canteenui.MainActivity.EmailSenderID;
+
 @SuppressLint("ValidFragment")
 public class AddDialog extends AppCompatDialogFragment {
 
@@ -38,8 +41,6 @@ public class AddDialog extends AppCompatDialogFragment {
     private Context context;
     private boolean deduct;
 
-    static String EmailSenderID;
-    static String EmailPassword;
     static String EmailRecvID;
     static String EmailSubject;
     static String EmailMessage;
@@ -86,23 +87,8 @@ public class AddDialog extends AppCompatDialogFragment {
                     });
 
 
-                    MainActivity.database.getReference().child(object.getUsn()).child("email").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snapshot) {
-                            Toast.makeText(context, "Email from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
-                            EmailRecvID = (String) snapshot.getValue();
-                            // System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
-                        }
+                    EmailRecvID = object.getEmail();
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-
-                    //Name, USN, Phone, Mail
-                    //TODO: Fill these
-                    EmailSenderID = "user@gmail.com";
-                    EmailPassword = "********"; //TODO: Maybe set up an encrypted string, and decpypt on call
                     EmailSubject = "GK Canteen Statement";
 
 
@@ -135,7 +121,7 @@ public class AddDialog extends AppCompatDialogFragment {
                                     EmailMessage = "Dear " + userName + " .\nThank you for vitsiting GK shop.\nYou just credited with the amount " + amount + " .\n" +
                                             "Your Total Net Credit amount is " + newAmount;
 
-                                   // new MailSender(EmailSenderID, EmailPassword).sendMailAsync(EmailRecvID, EmailSubject, EmailMessage);
+                                    new MailSender(EmailSenderID, EmailPassword).sendMailAsync(EmailRecvID, EmailSubject, EmailMessage);
                                     Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -153,38 +139,9 @@ public class AddDialog extends AppCompatDialogFragment {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                    MainActivity.database.getReference().child(object.getUsn()).child("name").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snapshot) {
-                            Toast.makeText(context, "Name from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
-                            userName = (String) snapshot.getValue();
-                            //System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
+                    EmailRecvID = object.getEmail();
 
-
-                    MainActivity.database.getReference().child(object.getUsn()).child("email").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snapshot) {
-                            Toast.makeText(context, "Email from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
-                            EmailRecvID = (String) snapshot.getValue();
-                            // System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-
-
-                    //Name, USN, Phone, Mail
-                    //TODO: Fill these
-                    EmailSenderID = "user@gmail.com";
-                    EmailPassword = "********"; //TODO: Maybe set up an encrypted string, and decpypt on call
                     EmailSubject = "GK Canteen Statement";
 
                     final String amount = editTextAmount.getText().toString().trim();
@@ -220,7 +177,7 @@ public class AddDialog extends AppCompatDialogFragment {
                                     EmailMessage = "Dear " + userName + " .\nThank you for visiting GK shop.\nYou just debited with the amount " + amount + " .\n" +
                                             "Your Total Net Credit amount is " + newAmount;
 
-                                    //new MailSender(EmailSenderID, EmailPassword).sendMailAsync(EmailRecvID, EmailSubject, EmailMessage);
+                                    new MailSender(EmailSenderID, EmailPassword).sendMailAsync(EmailRecvID, EmailSubject, EmailMessage);
 
                                     Toast.makeText(context, "Transaction completed successfully!", Toast.LENGTH_LONG).show();
                                 }

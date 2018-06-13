@@ -2,6 +2,7 @@ package com.nasirbashak007.canteenui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,8 +36,9 @@ public class LoginActivity extends AppCompatActivity {
 
         if (auth.getCurrentUser() != null) {
             Toast.makeText(LoginActivity.this,auth.getCurrentUser().getEmail(),Toast.LENGTH_SHORT).show();
+            MainActivity.EmailSenderID = auth.getCurrentUser().getEmail();
+            MainActivity.EmailPassword = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).getString("password", null);
             Intent i=new Intent(LoginActivity.this, MainActivity.class);
-            i.putExtra("LoginId", auth.getCurrentUser().getEmail());
             startActivity(i);
             finish();
         }
@@ -48,9 +50,25 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnLogin = (Button) findViewById(R.id.btn_login);
+        btnSignup = (Button) findViewById(R.id.btn_signup);
+        btnReset = (Button) findViewById(R.id.btn_reset_password);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,8 +105,11 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+                                    MainActivity.EmailSenderID = email;
+                                    MainActivity.EmailPassword = password;
+                                    //Toast.makeText(LoginActivity.this,password,Toast.LENGTH_LONG).show();
+                                    PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit().putString("password", password).commit();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("LoginId",email);
                                     startActivity(intent);
                                     finish();
                                 }
