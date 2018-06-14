@@ -31,12 +31,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddUserActivity extends AppCompatActivity {
 
-    LinearLayout L1,L2;
-    Animation leftToRight,rightToLeft,bottomToTop;
-    EditText name,usn,phone,email;
+    LinearLayout L1, L2;
+    Animation leftToRight, rightToLeft, bottomToTop;
+    EditText name, usn, phone, email;
     Button saveButton;
     CircleImageView profilePic;
     boolean profilePicChanged;
+    boolean profilePicCaptured;
 
     final int CAPTURE_REQUEST_CODE = 1;
     final int CAMERA_PERMISSION_REQUEST = 0;
@@ -45,8 +46,8 @@ public class AddUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
-        L1=findViewById(R.id.name_layout);
-        L2=findViewById(R.id.usn_layout);
+        L1 = findViewById(R.id.name_layout);
+        L2 = findViewById(R.id.usn_layout);
 
         profilePicChanged = true;
 
@@ -60,24 +61,24 @@ public class AddUserActivity extends AppCompatActivity {
         animate();
     }
 
-    public void animate(){
-        leftToRight= AnimationUtils.loadAnimation(this,R.anim.left_to_right_linear);
+    public void animate() {
+        leftToRight = AnimationUtils.loadAnimation(this, R.anim.left_to_right_linear);
         L1.setAnimation(leftToRight);
 
-        rightToLeft= AnimationUtils.loadAnimation(this,R.anim.right_to_left_linear);
+        rightToLeft = AnimationUtils.loadAnimation(this, R.anim.right_to_left_linear);
         L2.setAnimation(rightToLeft);
 
         findViewById(R.id.phone_layout).setAnimation(leftToRight);
         findViewById(R.id.mail_layout).setAnimation(rightToLeft);
 
-        bottomToTop= AnimationUtils.loadAnimation(this,R.anim.bottom_to_top_linear);
+        bottomToTop = AnimationUtils.loadAnimation(this, R.anim.bottom_to_top_linear);
 
         profilePic.setAnimation(bottomToTop);
         saveButton.setAnimation(bottomToTop);
     }
 
     public void openCamera(View view) {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -87,35 +88,40 @@ public class AddUserActivity extends AppCompatActivity {
                 photoIntent.putExtra("aspectY", 1);
                 photoIntent.putExtra("scale", true);
                 startActivityForResult(new Intent(photoIntent), CAPTURE_REQUEST_CODE);
-            }
-            else{
-                String []perms = {Manifest.permission.CAMERA};
+            } else {
+                String[] perms = {Manifest.permission.CAMERA};
                 requestPermissions(perms, CAMERA_PERMISSION_REQUEST);
             }
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
+        switch (requestCode) {
             case CAPTURE_REQUEST_CODE:
-                if(resultCode == RESULT_OK)
+                if (resultCode == RESULT_OK) {
                     profilePic.setImageBitmap((Bitmap) data.getExtras().get("data"));
+                    profilePicCaptured = true;
+                }
                 break;
         }
     }
 
     public void saveTheUserDetails(View view) {
-        if(usn.getText().toString().isEmpty() || name.getText().toString().isEmpty()){
-            Toast.makeText(getApplicationContext(),"USN and Name fields can't be empty!",Toast.LENGTH_LONG).show();
+        if (usn.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "USN and Name fields can't be empty!", Toast.LENGTH_LONG).show();
+            return;
+        } else if (!profilePicCaptured) {
+            Toast.makeText(getApplicationContext(), "Please capture the Picture", Toast.LENGTH_LONG).show();
             return;
         }
-        final FirebaseObject toStore = new FirebaseObject(name.getText().toString(),usn.getText().toString(),phone.getText().toString(),email.getText().toString());
+        final FirebaseObject toStore = new FirebaseObject(name.getText().toString(), usn.getText().toString(), phone.getText().toString(), email.getText().toString());
 
         MainActivity.database.getReference().child(usn.getText().toString()).setValue(toStore).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                final Bitmap bitmap = Bitmap.createBitmap( profilePic.getLayoutParams().width, profilePic.getLayoutParams().height, Bitmap.Config.ARGB_8888);
+                final Bitmap bitmap = Bitmap.createBitmap(profilePic.getLayoutParams().width, profilePic.getLayoutParams().height, Bitmap.Config.ARGB_8888);
                 Canvas c = new Canvas(bitmap);
                 profilePic.layout(0, 0, profilePic.getLayoutParams().width, profilePic.getLayoutParams().height);
                 profilePic.draw(c);
@@ -123,16 +129,16 @@ public class AddUserActivity extends AppCompatActivity {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
-                FirebaseStorage.getInstance().getReference().child(usn.getText().toString()+".jpg").putBytes(outputStream.toByteArray()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                FirebaseStorage.getInstance().getReference().child(usn.getText().toString() + ".jpg").putBytes(outputStream.toByteArray()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(getApplicationContext(),"Details Saved",Toast.LENGTH_SHORT).show();
-                        MainActivity.pul.onUploaded(toStore,bitmap);
+                        Toast.makeText(getApplicationContext(), "Details Saved", Toast.LENGTH_SHORT).show();
+                        MainActivity.pul.onUploaded(toStore, bitmap);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(),"Failed to upload image",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Failed to upload image", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -140,7 +146,7 @@ public class AddUserActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),"Failed to upload to database",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed to upload to database", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -149,12 +155,12 @@ public class AddUserActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case CAMERA_PERMISSION_REQUEST:
-                if(grantResults[requestCode]==PackageManager.PERMISSION_GRANTED)
+                if (grantResults[requestCode] == PackageManager.PERMISSION_GRANTED)
                     startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), CAPTURE_REQUEST_CODE);
                 else
-                    Toast.makeText(getApplicationContext(),"You need to allow camera access",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "You need to allow camera access", Toast.LENGTH_LONG).show();
 
         }
     }

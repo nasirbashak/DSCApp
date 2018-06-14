@@ -1,73 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="15dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="5">
+
         <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="Name:"/>
+            android:text="Name:" />
+
         <EditText
+            android:id="@+id/name_dialog_edittext"
             android:layout_width="0dp"
-            android:layout_weight="3"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:id="@+id/name_dialog_edittext"/>
+            android:layout_weight="3"
+            android:maxLines="1" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="5">
+
         <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="USN:"/>
+            android:text="USN:" />
+
         <EditText
+            android:id="@+id/usn_dialog_edittext"
             android:layout_width="0dp"
-            android:layout_weight="3"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:id="@+id/usn_dialog_edittext"/>
+            android:layout_weight="3"
+            android:maxLines="1" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="5">
+
         <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="Phone:"/>
+            android:text="Phone:" />
+
         <EditText
+            android:id="@+id/phone_dialog_edittext"
             android:layout_width="0dp"
-            android:layout_weight="3"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:id="@+id/phone_dialog_edittext"/>
+            android:layout_weight="3"
+            android:maxLines="1" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="5">
+
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="Email:"/>
+            android:text="Email:" />
+
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="3"
+            android:id="@+id/email_dialog_edittext"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:id="@+id/email_dialog_edittext"/>
+            android:layout_weight="3"
+            android:maxLines="1" />
     </LinearLayout>
 
 </LinearLayout>

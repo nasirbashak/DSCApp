@@ -76,7 +76,7 @@ public class AddDialog extends AppCompatDialogFragment {
                     MainActivity.database.getReference().child(object.getUsn()).child("name").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
-                            Toast.makeText(context, "Name from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
+                            // Toast.makeText(context, "Name from FB " + snapshot.getValue(), Toast.LENGTH_LONG).show();
                             userName = (String) snapshot.getValue();
                             // System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
                         }
@@ -94,11 +94,11 @@ public class AddDialog extends AppCompatDialogFragment {
 
                     final String amount = editTextAmount.getText().toString().trim();
 
-
-                    PersonDetails personDetails = new PersonDetails(amount);
-                    Toast.makeText(getContext(), amount, Toast.LENGTH_SHORT).show();
-
-                    Toast.makeText(getContext(), "From The Class " + personDetails.getAmount(), Toast.LENGTH_SHORT).show();
+                    int testAmount = Integer.parseInt(amount);
+                    if (testAmount == 0) {
+                        Toast.makeText(context, "Amount cant be zero", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     //Get date and time
                     final DateFormat df = DateFormat.getDateInstance();
@@ -146,11 +146,11 @@ public class AddDialog extends AppCompatDialogFragment {
 
                     final String amount = editTextAmount.getText().toString().trim();
 
-
-                    PersonDetails personDetails = new PersonDetails(amount);
-                    Toast.makeText(getContext(), amount, Toast.LENGTH_SHORT).show();
-
-                    Toast.makeText(getContext(), "From The Class " + personDetails.getAmount(), Toast.LENGTH_SHORT).show();
+                    int testAmount = Integer.parseInt(amount);
+                    if (testAmount == 0) {
+                        Toast.makeText(context, "Amount cant be zero", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     //Get date and time
                     final DateFormat df = DateFormat.getDateInstance();

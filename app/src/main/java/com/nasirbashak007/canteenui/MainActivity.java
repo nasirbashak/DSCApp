@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         onDisplay = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference=database.getReference();
+        databaseReference = database.getReference();
 
         listener = new ValueEventListener() {
             @Override
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         pul = new OnProfilePictureUploadedListener() {
             @Override
             public void onUploaded(FirebaseObject object, Bitmap image) {
-                addNewAnimatedCard(object,image);
+                addNewAnimatedCard(object, image);
             }
         };
 
@@ -123,23 +123,24 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, AddUserActivity.class));
     }
 
-    public void userPage(View view) {
+   /* public void userPage(View view) {
         UserPage = new Intent(this, UserDetails.class);
         startActivity(UserPage);
 
     }
+    */
 
     public void AddTheAmount(FirebaseObject o, TextView tv) {
-        AddDialog addDialog = new AddDialog(MainActivity.this, tv, o,false);
+        AddDialog addDialog = new AddDialog(MainActivity.this, tv, o, false);
         addDialog.show(getSupportFragmentManager(), "Add Dialog");
     }
 
     public void deductAmount(FirebaseObject o, TextView tv) {
-        AddDialog addDialog = new AddDialog(MainActivity.this, tv, o,true);
+        AddDialog addDialog = new AddDialog(MainActivity.this, tv, o, true);
         addDialog.show(getSupportFragmentManager(), "Add Dialog");
     }
 
-    public void addNewAnimatedCard(final FirebaseObject object, @Nullable Bitmap img){
+    public void addNewAnimatedCard(final FirebaseObject object, @Nullable Bitmap img) {
         final FirebaseObject fo = object;
 
         final View cardRoot = getLayoutInflater().inflate(R.layout.data_view, null);
@@ -159,56 +160,71 @@ public class MainActivity extends AppCompatActivity {
         addButton.setContentDescription(object.getUsn());
         deductButton.setContentDescription(object.getUsn());
 
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, UserDetails.class);
+
+                i.putExtra("name", object.getName());
+                i.putExtra("usn", object.getUsn());
+                i.putExtra("phone", object.getPhone());
+                i.putExtra("email", object.getEmail());
+                i.putExtra("amount", object.getAmount());
+
+                startActivity(i);
+            }
+        });
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddTheAmount(object,userAmountTv);
-                Toast.makeText(getApplicationContext(), "Adding for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
+                AddTheAmount(object, userAmountTv);
+                //Toast.makeText(getApplicationContext(), "Adding for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
             }
         });
         userAmountTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, TransactionViewActivity.class);
-                i.putExtra("values",object.getTransactions());
-                i.putExtra("total",object.getAmount());
+                i.putExtra("values", object.getTransactions());
+                i.putExtra("total", object.getAmount());
                 startActivity(i);
             }
         });
         deductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deductAmount(object,userAmountTv);
-                Toast.makeText(getApplicationContext(), "Deducting for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
+                deductAmount(object, userAmountTv);
+                //Toast.makeText(getApplicationContext(), "Deducting for USN: "+fo.getUsn(), Toast.LENGTH_LONG).show();
             }
         });
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final View editView = getLayoutInflater().inflate(R.layout.dialog_user_details_change,null);
-                ((EditText)editView.findViewById(R.id.name_dialog_edittext)).setText(object.getName());
-                ((EditText)editView.findViewById(R.id.usn_dialog_edittext)).setText(object.getUsn());
-                ((EditText)editView.findViewById(R.id.phone_dialog_edittext)).setText(object.getPhone());
-                ((EditText)editView.findViewById(R.id.email_dialog_edittext)).setText(object.getEmail());
+                final View editView = getLayoutInflater().inflate(R.layout.dialog_user_details_change, null);
+                ((EditText) editView.findViewById(R.id.name_dialog_edittext)).setText(object.getName());
+                ((EditText) editView.findViewById(R.id.usn_dialog_edittext)).setText(object.getUsn());
+                ((EditText) editView.findViewById(R.id.phone_dialog_edittext)).setText(object.getPhone());
+                ((EditText) editView.findViewById(R.id.email_dialog_edittext)).setText(object.getEmail());
 
                 editView.findViewById(R.id.usn_dialog_edittext).setEnabled(false);
 
                 final AlertDialog changer = new AlertDialog.Builder(MainActivity.this).setView(editView).setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        userNameTv.setText(((EditText)editView.findViewById(R.id.name_dialog_edittext)).getText().toString());
+                        userNameTv.setText(((EditText) editView.findViewById(R.id.name_dialog_edittext)).getText().toString());
                         database.getReference().child((
-                                (EditText)editView.findViewById(R.id.usn_dialog_edittext)).getText().toString())
-                                    .setValue(new FirebaseObject(
-                                        ((EditText)editView.findViewById(R.id.name_dialog_edittext)).getText().toString(),
-                                        ((EditText)editView.findViewById(R.id.usn_dialog_edittext)).getText().toString(),
-                                        ((EditText)editView.findViewById(R.id.phone_dialog_edittext)).getText().toString(),
-                                        ((EditText)editView.findViewById(R.id.email_dialog_edittext)).getText().toString(),
+                                (EditText) editView.findViewById(R.id.usn_dialog_edittext)).getText().toString())
+                                .setValue(new FirebaseObject(
+                                        ((EditText) editView.findViewById(R.id.name_dialog_edittext)).getText().toString(),
+                                        ((EditText) editView.findViewById(R.id.usn_dialog_edittext)).getText().toString(),
+                                        ((EditText) editView.findViewById(R.id.phone_dialog_edittext)).getText().toString(),
+                                        ((EditText) editView.findViewById(R.id.email_dialog_edittext)).getText().toString(),
                                         object.getAmount()
-                        )).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                )).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(MainActivity.this,"Changed Successfully",Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Changed Successfully", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -222,10 +238,10 @@ public class MainActivity extends AppCompatActivity {
                                 database.getReference().child(object.getUsn()).removeValue(new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                        FirebaseStorage.getInstance().getReference().child(object.getUsn()+".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        FirebaseStorage.getInstance().getReference().child(object.getUsn() + ".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Toast.makeText(MainActivity.this,"Removed Successfully",Toast.LENGTH_LONG).show();
+                                                Toast.makeText(MainActivity.this, "Removed Successfully", Toast.LENGTH_LONG).show();
                                             }
                                         });
                                     }
@@ -275,8 +291,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else{
+        } else {
             profilePic.setImageBitmap(img);
             //editIntent.putExtra("profilepic", img);
         }
@@ -290,13 +305,13 @@ public class MainActivity extends AppCompatActivity {
         RootLayout.addView(cardRoot);
     }
 
-    private class DataFetchTask extends AsyncTask<DataSnapshot,FirebaseObject,Void>{
+    private class DataFetchTask extends AsyncTask<DataSnapshot, FirebaseObject, Void> {
 
         @Override
         protected void onProgressUpdate(FirebaseObject... values) {
-            if(pd.isShowing())
+            if (pd.isShowing())
                 pd.dismiss();
-            addNewAnimatedCard(values[0],null);
+            addNewAnimatedCard(values[0], null);
         }
 
         @Override

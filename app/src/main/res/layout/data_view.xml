@@ -17,7 +17,7 @@
 
             <RelativeLayout
                 android:id="@+id/first_layout"
-                android:layout_width="363dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="5dp">
@@ -32,8 +32,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_toRightOf="@id/user_image"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/user_image"
                     android:orientation="vertical"
                     android:paddingLeft="16dp">
 
@@ -49,9 +49,11 @@
 
                     <TextView
                         android:id="@+id/user_amount_textview"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_gravity="left"
+                        android:layout_marginRight="10dp"
+                        android:background="#e9e2e2"
                         android:gravity="center"
                         android:text="500"
                         android:textColor="#000"
@@ -61,12 +63,13 @@
 
                 <ImageView
                     android:id="@+id/edit_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/edit_icon" />
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#fdb202"
+                    android:src="@drawable/edit_icon_blue" />
 
             </RelativeLayout>
 

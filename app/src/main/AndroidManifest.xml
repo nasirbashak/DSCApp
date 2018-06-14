@@ -19,8 +19,11 @@
             android:label="ADD User"/>
         <activity
             android:name=".AmountDetailsActivity"
-            android:label="Amount Details" />
-        <activity android:name=".UserDetails" />
+            android:label="Amount Details"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UserDetails"
+            android:label="User Details"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
@@ -31,9 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TransactionViewActivity"/>
-        <activity android:name=".SignupActivity"/>
-        <activity android:name=".ResetPasswordActivity"/>
+        <activity android:name=".TransactionViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SignupActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ResetPasswordActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
