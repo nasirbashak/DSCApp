@@ -3,7 +3,8 @@
     package="com.nasirbashak007.canteenui">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,17 +12,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddUserActivity"
-            android:screenOrientation="portrait"
-            android:label="ADD User"/>
+            android:label="ADD User"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AmountDetailsActivity"
             android:label="Amount Details"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".UserDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserDetails"
             android:label="User Details"
             android:screenOrientation="portrait" />
         <activity
@@ -34,12 +37,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TransactionViewActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SignupActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ResetPasswordActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".TransactionViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
