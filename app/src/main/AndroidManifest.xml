@@ -12,17 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AddUserActivity"
             android:screenOrientation="portrait"
-            android:label="ADD User"></activity>
+            android:label="ADD User"/>
         <activity
             android:name=".AmountDetailsActivity"
             android:label="Amount Details" />
@@ -30,8 +24,16 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".TransactionViewActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".TransactionViewActivity"/>
+        <activity android:name=".SignupActivity"/>
+        <activity android:name=".ResetPasswordActivity"/>
     </application>
 
 </manifest>
