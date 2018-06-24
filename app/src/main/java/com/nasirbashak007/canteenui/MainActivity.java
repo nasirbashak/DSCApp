@@ -18,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout RootLayout;
     Animation topToBottom, bottomToTop;
     Intent UserPage;
+    FloatingActionButton adder;
 
     ValueEventListener listener;
     ValueEventListener single;
@@ -69,12 +72,15 @@ public class MainActivity extends AppCompatActivity {
     static String EmailPassword;
 
     List<FirebaseObject> onDisplay;
+    List<View> cards;
 
     Bitmap tempPic;
 
     ProgressDialog pd;
 
     final int USER_ADD_ACTIVITY = 2;
+
+    boolean isSearching;
 
     static OnProfilePictureUploadedListener pul;
 
@@ -90,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
         pd.show();
 
         RootLayout = findViewById(R.id.root_layout);
+        adder = findViewById(R.id.floatingActionButton);
 
         onDisplay = new ArrayList<>();
+        cards = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
@@ -111,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         pul = new OnProfilePictureUploadedListener() {
             @Override
             public void onUploaded(FirebaseObject object, Bitmap image) {
+                onDisplay.add(object);
                 addNewAnimatedCard(object, image);
             }
         };
@@ -235,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 RootLayout.removeView(cardRoot);
+                                onDisplay.remove(object);
                                 database.getReference().child(object.getUsn()).removeValue(new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
@@ -305,6 +315,44 @@ public class MainActivity extends AppCompatActivity {
         RootLayout.addView(cardRoot);
     }
 
+
+    public void startSreach(MenuItem item) {
+        isSearching = true;
+        adder.setVisibility(View.GONE);
+        View searcher = getLayoutInflater().inflate(R.layout.search_layout,null);
+        final EditText searchText = searcher.findViewById(R.id.searchText);
+        new AlertDialog.Builder(this).setView(searcher).setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for(int i=0;i<onDisplay.size();i++){
+                    FirebaseObject obj = onDisplay.get(i);
+                    View v = RootLayout.getChildAt(i);
+                    cards.add(v);
+                    if(!obj.getName().toLowerCase().contains(searchText.getText().toString().toLowerCase())){
+                        RootLayout.removeView(v);
+                    }
+                }
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).create().show();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if(isSearching){
+            isSearching = false;
+            RootLayout.removeAllViews();
+            for(View v:cards){
+                RootLayout.addView(v);
+            }
+        }
+    }
+
     private class DataFetchTask extends AsyncTask<DataSnapshot, FirebaseObject, Void> {
 
         @Override
@@ -328,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot ds : mdata) {
                     try {
                         FirebaseObject temp = new FirebaseObject((HashMap) ds.getValue());
+                        onDisplay.add(temp);
                         publishProgress(temp);
                     } catch (NullPointerException e) {
 

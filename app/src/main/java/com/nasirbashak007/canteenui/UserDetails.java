@@ -45,11 +45,11 @@ public class UserDetails extends AppCompatActivity {
 
     private void init() {
 
-        nameTv = (TextView) findViewById(R.id.tvName);
+        /*nameTv = (TextView) findViewById(R.id.tvName);
         usnTv = (TextView) findViewById(R.id.tvUsn);
         phoneTv = (TextView) findViewById(R.id.tvPhone);
         emailTv = (TextView) findViewById(R.id.tvEmail);
-        amountTv = (TextView) findViewById(R.id.tvAmount);
+        amountTv = (TextView) findViewById(R.id.tvAmount);*/
 
 
     }
